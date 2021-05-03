@@ -2,9 +2,7 @@ import os
 import setuptools
 
 if __name__ == '__main__':
-    version = open(os.path.join(os.path.dirname(__file__), 'qubes-network-server.spec')).read().strip()
-    version = [v for v in version.splitlines() if v.startswith("Version:")][0]
-    version = version.split()[-1]
+    version = open(os.path.join(os.path.dirname(__file__), 'version')).read().strip()
     setuptools.setup(
         name='qubesnetworkserver',
         version=version,

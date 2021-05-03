@@ -1,7 +1,8 @@
 [Unit]
 Description=Configure the network to allow network server VMs
-Documentation=https://github.com/Rudd-O/qubes-network-server
+Documentation=https://github.com/QubesOS-contrib/qubes-network-server
 ConditionPathExists=/var/run/qubes-service/qubes-firewall
+ConditionPathExists=/var/run/qubes-service/qubes-routing-manager
 After=qubes-firewall.service
 BindsTo=qubes-firewall.service
 

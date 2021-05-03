@@ -11,7 +11,7 @@ src/qubes-routing-manager.service: src/qubes-routing-manager.service.in
 
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-.PHONY: clean dist rpm srpm install-template install-dom0
+.PHONY: clean dist rpm srpm install-vm install-dom0
 
 clean:
 	cd $(ROOT_DIR) || exit $$? ; find -name '*.pyc' -o -name '*~' -print0 | xargs -0 rm -f
@@ -31,7 +31,7 @@ rpm: dist
 	cd $(ROOT_DIR) || exit $$? ; rpmbuild --define "_srcrpmdir ." --define "_rpmdir builddir.rpm" -ta `rpmspec -q --queryformat '%{name}-%{version}.tar.gz\n' *spec | head -1`
 	cd $(ROOT_DIR) ; mv -f builddir.rpm/*/* . && rm -rf builddir.rpm
 
-install-template: all
+install-vm: all
 	install -Dm 755 src/qubes-routing-manager -t $(DESTDIR)/$(SBINDIR)/
 	sed -i "s,^#!.*,#!$(PYTHON)," $(DESTDIR)/$(SBINDIR)/qubes-routing-manager
 	install -Dm 644 src/qubes-routing-manager.service -t $(DESTDIR)/$(UNITDIR)/
@@ -40,4 +40,4 @@ install-template: all
 install-dom0:
 	PYTHONDONTWRITEBYTECODE=1 python3 setup.py install $(PYTHON_PREFIX_ARG) -O0 --root $(DESTDIR)
 
-install: install-dom0 install-template
+install: install-dom0 install-vm
